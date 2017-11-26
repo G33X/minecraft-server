@@ -5,7 +5,7 @@ MAINTAINER Timothy M. Crider <timcrider@gmail.com>
 
 # Base system updates
 RUN yum update -y \
-	&& yum install -y git gcc g++ make cmake nano \
+	&& yum install -y git gcc g++ make cmake nano openssl \
 	&& yum groupinstall -y "Development Tools" "Development Libraries"
 
 # Fetch cuberite
@@ -21,8 +21,9 @@ RUN cd /opt/SOURCES/cuberite \
 # Configure cuberite
 COPY assets/config/webadmin.ini /opt/SOURCES/cuberite/Server
 COPY assets/scripts/cuberite-start-server.sh /bin/cuberite-start-server.sh
+COPY assets/scripts/cuberite-create-https-certs.sh /bin/cuberite-create-https-certs.sh
 
-RUN chmod 0700 /bin/cuberite-start-server.sh
+RUN chmod 0700 /bin/cuberite-*.sh
 
 # Webmin
 EXPOSE 8080
